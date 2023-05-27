@@ -6,6 +6,8 @@ import { RxAvatar } from "react-icons/rx";
 import styles from "../styles/styles";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export const metadata = {
   title: "Signup Page",
@@ -13,6 +15,7 @@ export const metadata = {
 };
 
 export default function login() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +27,31 @@ export default function login() {
     setAvatar(file);
   };
 
-  const handleSubmit = () => {};
+  // console.log(process.env.SERVER);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newForm = new FormData();
+
+    newForm.append("file", avatar);
+    newForm.append("name", name);
+    newForm.append("email", email);
+    newForm.append("password", password);
+
+    await axios
+      .post(`${process.env.SERVER}/user/create-user`, newForm, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        if (res.data.success === true) {
+          router.push("/");
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
