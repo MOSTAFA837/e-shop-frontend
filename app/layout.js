@@ -6,6 +6,9 @@ import { Inter } from "next/font/google";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import Header from "./components/Layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,11 +31,14 @@ export default function RootLayout({ children }) {
   }, []);
 
   return (
-    <html lang="en">
-      <body suppressHydrationWarning={true} className={inter.className}>
-        {children}
-        <ToastContainer />
-      </body>
-    </html>
+    <Provider store={store}>
+      <html lang="en">
+        <body suppressHydrationWarning={true} className={inter.className}>
+          <Header />
+          {children}
+          <ToastContainer />
+        </body>
+      </html>
+    </Provider>
   );
 }
