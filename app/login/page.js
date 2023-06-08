@@ -4,6 +4,9 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../styles/styles";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export const metadata = {
   title: "Login Page",
@@ -15,7 +18,27 @@ export default function login() {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
 
-  const handleSubmit = () => {};
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post(
+        `${process.env.SERVER}/user/login-user`,
+        { email, password },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success("Login success!");
+        console.log("Login success!");
+        router.push("/");
+      })
+      .catch((err) => {
+        // toast.error(err);
+        console.log(err);
+      });
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">

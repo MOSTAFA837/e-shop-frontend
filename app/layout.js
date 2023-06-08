@@ -1,6 +1,10 @@
+"use client";
+
+import axios from "axios";
 import "./styles/globals.css";
 import { Inter } from "next/font/google";
-import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,6 +15,18 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  useEffect(() => {
+    axios
+      .get(`${process.env.SERVER}/user/get-user`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.user.name);
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
