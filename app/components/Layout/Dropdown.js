@@ -5,6 +5,8 @@ export default function Dropdown({ categoriesdata, setDropdown }) {
   const router = useRouter();
 
   const handleSubmit = (cat) => {
+    const slug = cat.title.toLowerCase().replaceAll(" ", "-");
+
     router.push(`/products?category=${cat.title}`);
     setDropdown(false);
   };
