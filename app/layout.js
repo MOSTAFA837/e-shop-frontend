@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import Header from "./components/Layout/Header";
+import Footer from "./components/Layout/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
           <Header />
           {children}
           <ToastContainer />
+          <Footer />
         </body>
       </html>
     </Provider>

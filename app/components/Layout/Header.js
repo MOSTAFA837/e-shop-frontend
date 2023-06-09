@@ -38,6 +38,16 @@ export default function Header() {
     setSearchData(filteredProducts);
   };
 
+  if (typeof window !== "undefined") {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 70) {
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    });
+  }
+
   const handleMouseLeave = () => {
     setSearchData(null);
   };
@@ -48,7 +58,7 @@ export default function Header() {
         <div
           className={` ${
             dropdown &&
-            "bg-[#9e9e9e29] absolute top-0 left-0 z-50 w-full h-full transition-all"
+            "bg-[#9e9e9e29] absolute top-0 left-0 z-10  w-full h-full transition-all"
           }`}
           onClick={() => setDropdown(false)}
         ></div>
@@ -82,7 +92,7 @@ export default function Header() {
             />
 
             {searchData && searchData.length !== 0 ? (
-              <div className="absolute h-auto w-full bg-slate-50 shadow-sm-2 z-[9] p-4">
+              <div className="absolute h-auto w-full bg-slate-50 shadow-sm-2  p-4">
                 {searchData &&
                   searchData.map((product, index) => {
                     const d = product.name;
@@ -117,7 +127,9 @@ export default function Header() {
 
       <div
         className={`${
-          active ? "shadow-sm fixed top-0 left-0 z-12" : null
+          active
+            ? "shadow-sm fixed z-30 bg-[#e2e2e275] top-0 left-0 backdrop-blur-sm"
+            : null
         } transition hidden md:flex items-center justify-between w-full h-[70px]`}
       >
         <div
@@ -128,7 +140,7 @@ export default function Header() {
               <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
 
               <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
+                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-[#ffffff5c]  font-sans text-lg font-[500] select-none rounded-t-md`}
               >
                 All Categories
               </button>
