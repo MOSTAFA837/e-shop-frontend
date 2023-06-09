@@ -2,20 +2,26 @@ import { categoriesData, productData } from "@/app/static/data";
 import styles from "@/app/styles/styles";
 import Link from "next/link";
 import { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import {
-  IoIosArrowDown,
-  IoIosArrowForward,
-  IoIosArrowBack,
-} from "react-icons/io";
+  AiOutlineHeart,
+  AiOutlineSearch,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import Dropdown from "./Dropdown";
+import Navbar from "./Navbar";
+import Wishlist from "../wishlist/Wishlist";
+import Cart from "../cart/Cart";
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [openWishlist, setOpenWishlist] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -38,12 +44,15 @@ export default function Header() {
 
   return (
     <>
-      <div
-        className={`absolute top-0 left-0 z-0 w-full h-full transition-all ${
-          dropdown && "bg-[#9e9e9e29]"
-        }`}
-        onClick={() => setDropdown(false)}
-      ></div>
+      {dropdown && (
+        <div
+          className={` ${
+            dropdown &&
+            "bg-[#9e9e9e29] absolute top-0 left-0 z-50 w-full h-full transition-all"
+          }`}
+          onClick={() => setDropdown(false)}
+        ></div>
+      )}
 
       <div className={`${styles.section}`}>
         <div
@@ -108,8 +117,8 @@ export default function Header() {
 
       <div
         className={`${
-          active ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden md:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+          active ? "shadow-sm fixed top-0 left-0 z-12" : null
+        } transition hidden md:flex items-center justify-between w-full h-[70px]`}
       >
         <div
           className={`${styles.section} relative ${styles.noramlFlex} justify-between`}
@@ -146,6 +155,47 @@ export default function Header() {
               )}
             </div>
           </div>
+
+          <div className={`${styles.noramlFlex}`}>
+            <Navbar />
+          </div>
+
+          <div className="flex">
+            <div className={`${styles.noramlFlex}`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => setOpenWishlist(true)}
+              >
+                <AiOutlineHeart size={30} />
+                <span className="absolute right-0 top-0 rounded-full bg-[#1d26ac] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  3
+                </span>
+              </div>
+            </div>
+
+            <div className={`${styles.noramlFlex}`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => setOpenCart(true)}
+              >
+                <AiOutlineShoppingCart size={30} />
+                <span className="absolute right-0 top-0 rounded-full bg-[#1d26ac] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  4
+                </span>
+              </div>
+            </div>
+
+            <div className={`${styles.noramlFlex}`}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <Link href="/login">
+                  <CgProfile size={30} />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />}
+          {openCart && <Cart setOpenCart={setOpenCart} />}
         </div>
       </div>
     </>
